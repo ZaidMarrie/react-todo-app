@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+import Footer from "./components/Footer";
+import About from "./components/About";
 
 function App() {
 	const [showForm, setShowForm] = useState(false);
@@ -43,6 +46,7 @@ function App() {
 		const data = await res.json();
 
 		setTasks([...tasks, data]);
+		setShowForm(!showForm);
 	};
 
 	// Deletes the specified task
@@ -72,15 +76,29 @@ function App() {
 	};
 
 	return (
-		<div className="container">
-			<Header onAdd={() => setShowForm(!showForm)} showForm={showForm} />
-			{showForm && <AddTask onAdd={addTask} />}
-			{tasks.length > 0 ? (
-				<Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
-			) : (
-				"No Tasks To Show"
-			)}
-		</div>
+		<Router>
+			<div className="container">
+				<Header onAdd={() => setShowForm(!showForm)} showForm={showForm} />
+				<Routes>
+					<Route
+						path="/"
+						exact
+						element={
+							<>
+								{showForm && <AddTask onAdd={addTask} />}
+								{tasks.length > 0 ? (
+									<Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
+								) : (
+									"No Tasks To Show"
+								)}
+							</>
+						}
+					/>
+					<Route path="/about" element={<About />} />
+				</Routes>
+				<Footer />
+			</div>
+		</Router>
 	);
 }
 

@@ -13,9 +13,9 @@
       "reminder": false
     },
     {
-      "text": "go to work",
-      "day": "next day",
-      "reminder": false,
+      "text": "Go to gym",
+      "day": "Sep 1st at 8:00am",
+      "reminder": true,
       "id": 4
     }
   ]
